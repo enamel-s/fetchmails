@@ -1,9 +1,9 @@
-name: Fetch Google Sheet Every Hour
+name: Fetch Google Sheet
 
-# Trigger every hour
 on:
+  workflow_dispatch:   # This allows manual runs
   schedule:
-    - cron: '0 * * * *'  # Runs at minute 0 of every hour
+    - cron: '0 * * * *'  # Runs every hour
 
 jobs:
   fetch:
