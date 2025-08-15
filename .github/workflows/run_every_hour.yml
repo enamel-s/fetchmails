@@ -1,34 +1,27 @@
-name: Fetch Google Sheet
+name: Fetch Google Sheet Every Hour
 
+# Trigger every hour
 on:
   schedule:
-    - cron: '0 * * * *' # every hour
-  workflow_dispatch: # allows manual trigger
+    - cron: '0 * * * *'  # Runs at minute 0 of every hour
 
 jobs:
-  fetch_csv:
+  fetch:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.x
+          python-version: '3.9'
 
       - name: Install dependencies
-        run: pip install pandas requests
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas requests
 
       - name: Run script
-        run: python scripts/fetch_sheet.py
-
-      - name: Commit CSV
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add sheet_data.csv
-          git commit -m "Update CSV"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python fetch_sheet.py
